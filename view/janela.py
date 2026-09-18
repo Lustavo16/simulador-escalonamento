@@ -556,19 +556,18 @@ def centralizar_janela(janela, largura, altura):
 
 def habilitar_quantum():
     if algoritmo_var.get() == 3:
-        quantum_label.pack(padx=20, pady=2)
-        quantum_entry.pack(padx=20, pady=2)
+        quantum_label.pack(before=ctx_label, pady=2)
+        quantum_entry.pack(before=ctx_label, pady=2)
     else:
         quantum_label.pack_forget()
         quantum_entry.pack_forget()
 
     if algoritmo_var.get() in (5, 6):
-        alpha_label.pack(pady=2)
-        alpha_entry.pack(pady=2)
+        alpha_label.pack(before=ctx_label, pady=2)
+        alpha_entry.pack(before=ctx_label, pady=2)
     else:
         alpha_label.pack_forget()
         alpha_entry.pack_forget()
-
 
 def criar_janela():
     global entrada_chegada, entrada_duracao, entrada_prioridade

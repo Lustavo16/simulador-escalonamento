@@ -1,118 +1,141 @@
 # Simulador de Escalonamento de Tarefas
 
-Projeto prático da disciplina de **Sistemas Operacionais**.
+Projeto prático da disciplina de **Sistemas Operacionais**, ministrado pelo Prof. **Vinicius S. Borges**. 8.º semestre do curso de Engenharia da Computação na FESA.
 
-O trabalho consiste em desenvolver um simulador de escalonamento de tarefas em
-um processador, capaz de reproduzir os algoritmos vistos em sala e o fenômeno
-da inversão de prioridades, com seus mecanismos de correção.
+---
 
-O simulador implementa seis algoritmos:
+## Autoria
 
-- **FCFS** — First-Come, First-Served
-- **SJF** — Shortest Job First
-- **SRTF** — Shortest Remaining Time First
-- **RR** — Round-Robin
-- **PRIOc** — Prioridade cooperativa
-- **PRIOp** — Prioridade preemptiva
+| Nome | RA |
+|------|----|
+| Aline Cristina R. de Barros | 081230021 |
+| Gustavo A. Zaccheu | 081230023 |
+| Luis Gustavo de O. Caneiro | 081230029 |
+| Vitor Barbosa Carlos | 081230037 |
 
-E os mecanismos de tratamento de recursos de uso exclusivo: **inversão de
-prioridades**, **herança de prioridade**, **teto de prioridade** e
-**envelhecimento**.
+---
 
-## Documentos do projeto
+## Descrição
 
-Leia os dois antes de começar.
+Simulador de escalonamento de tarefas em um processador, desenvolvido em Python com interface gráfica. O simulador implementa seis algoritmos de escalonamento — FCFS, SJF, SRTF, Round-Robin, Prioridade Cooperativa e Prioridade Preemptiva — e reproduz o fenômeno da inversão de prioridades, com os mecanismos de correção por herança de prioridade e teto de prioridade. Inclui também envelhecimento (*aging*) para eliminação de inanição e geração aleatória de cenários.
 
-- [📄 Enunciado](./documentos/01_enunciado.pdf) — o que o simulador precisa
-  fazer: os dez requisitos e os cenários de referência
-- [📘 Guia de documentação](./documentos/02_guia_documentacao.pdf) — o que
-  escrever no README, nos tutoriais e na documentação técnica
+---
 
-O enunciado descreve *o que fazer*; o guia de documentação descreve *como
-organizar a entrega*.
+## Como executar
+> **No GitHub ou em seu clone local (direto na pasta, não em uma IDE), clique duas vezes em `dist/SimuladorEscalonamento.exe`.**
+>
+> Nenhuma instalação, ambiente virtual ou linha de comando é necessária.
 
-## Organização deste repositório
+---
 
-A branch `main` guarda apenas os documentos do projeto e **nunca recebe
-entregas**. Cada grupo tem uma **branch dedicada**, onde a entrega aprovada é
-incorporada.
-
-### Estado inicial
+## Estrutura do repositório
 
 ```
 simulador-escalonamento/
-└── main
-    ├── README.md
-    ├── .gitignore
-    └── documentos/
+├── dist/
+│   └── SimuladorEscalonamento.exe   → Executável (duplo clique para abrir)
+├── main.py                          → Ponto de entrada do código-fonte
+├── model/
+│   ├── processo.py                  → Modelo de tarefa (Processo) e período
+│   └── prioridade.py                → Classe Prioridade
+├── control/
+│   ├── simular_escalonamento.py     → Controlador principal (roteador de algoritmos)
+│   └── algoritmos/
+│       ├── fcfs.py                  → Algoritmo FCFS
+│       ├── sjf.py                   → Algoritmo SJF
+│       ├── srtf.py                  → Algoritmo SRTF
+│       ├── roundRobin.py            → Algoritmo Round-Robin
+│       ├── prioridadeCooperativo.py → Prioridade cooperativa (com aging)
+│       ├── prioridadePreemptivo.py  → Prioridade preemptiva (com aging)
+│       ├── inversaoDePrioridade.py  → Inversão de prioridade (cenário sem correção)
+│       ├── herancaDePrioridade.py   → Herança de prioridade (R6)
+│       └── tetoDePrioridade.py      → Teto de prioridade (R7)
+├── control/gerador_cenarios/
+│   └── gerador_cenarios.py          → Geração aleatória de cenários (R9)
+├── view/
+│   ├── janela.py                    → Janela principal da interface (Tkinter)
+│   ├── graficoProcessos.py          → Diagrama de tempo e tabela de métricas
+│   └── simulacao_lotes.py           → Tela de simulação em lotes
+├── assets/                          → Recursos visuais da interface
+├── cenarios/                        → Conjuntos de tarefas exportados (CSV)
+├── requirements.txt                 → Dependências do código-fonte
+└── docs/
+    ├── tutorial_execucao.docx       → Tutorial de execução
+    ├── tutorial_uso.docx            → Tutorial de uso
+    └── documentacao_projeto.docx    → Documentação técnica
 ```
 
-### Ao longo do semestre
+---
 
+## Arquivos de código
+
+| Arquivo | O que faz |
+|---------|-----------|
+| `main.py` | Ponto de entrada: chama `criar_janela()` do módulo `view` |
+| `model/processo.py` | Define as classes `Processo` e `Periodo`; calcula turnaround, espera e tempo até 1.ª execução |
+| `model/prioridade.py` | Encapsula o valor numérico de prioridade de uma tarefa |
+| `control/simular_escalonamento.py` | Recebe os parâmetros da interface e despacha para o algoritmo correto |
+| `control/algoritmos/fcfs.py` | First-Come, First-Served |
+| `control/algoritmos/sjf.py` | Shortest Job First |
+| `control/algoritmos/srtf.py` | Shortest Remaining Time First |
+| `control/algoritmos/roundRobin.py` | Round-Robin com quantum configurável |
+| `control/algoritmos/prioridadeCooperativo.py` | Prioridade cooperativa com envelhecimento |
+| `control/algoritmos/prioridadePreemptivo.py` | Prioridade preemptiva com envelhecimento |
+| `control/algoritmos/inversaoDePrioridade.py` | Cenário de inversão de prioridades (sem correção) |
+| `control/algoritmos/herancaDePrioridade.py` | Correção por herança de prioridade (R6) |
+| `control/algoritmos/tetoDePrioridade.py` | Correção por teto de prioridade (R7) |
+| `control/gerador_cenarios/gerador_cenarios.py` | Gera conjuntos aleatórios de tarefas (R9) |
+| `view/janela.py` | Interface gráfica principal: entrada de tarefas, parâmetros e seleção de algoritmo |
+| `view/graficoProcessos.py` | Exibe diagrama de tempo (Gantt) e tabela de métricas |
+| `view/simulacao_lotes.py` | Tela de simulação em lotes para comparação entre algoritmos |
+
+---
+
+## Funcionalidades
+
+| O que faz | Arquivo onde está implementado |
+|-----------|-------------------------------|
+| Seis algoritmos de escalonamento (R1) | `control/algoritmos/` |
+| Entrada manual e sorteio de tarefas (R2) | `view/janela.py`, `control/gerador_cenarios/gerador_cenarios.py` |
+| Exportar e importar conjuntos de tarefas em CSV (R2) | `view/janela.py` |
+| Métricas por tarefa e em média — T_t, T_p, T_w, 1.ª exec. (R3) | `model/processo.py`, `view/graficoProcessos.py` |
+| Quantum e custo de troca de contexto configuráveis (R4) | `view/janela.py`, `control/algoritmos/roundRobin.py` |
+| Eficiência do escalonador (R4) | `view/graficoProcessos.py` |
+| Recursos de uso exclusivo e inversão de prioridades (R5) | `control/algoritmos/inversaoDePrioridade.py` |
+| Herança de prioridade (R6) | `control/algoritmos/herancaDePrioridade.py` |
+| Teto de prioridade (R7) | `control/algoritmos/tetoDePrioridade.py` |
+| Envelhecimento / aging (R8) | `control/algoritmos/prioridadeCooperativo.py`, `prioridadePreemptivo.py` |
+| Geração aleatória de cenários e simulação em lotes (R9) | `control/gerador_cenarios/gerador_cenarios.py`, `view/simulacao_lotes.py` |
+| Diagrama de tempo (Gantt) (R9) | `view/graficoProcessos.py` |
+| Execução por duplo clique sem montagem de ambiente (R10) | `dist/SimuladorEscalonamento.exe` |
+
+---
+
+## Requisitos de ambiente (apenas para executar via código-fonte)
+
+- Python 3.10 ou superior
+- Tkinter (incluído na instalação padrão do Python)
+- Matplotlib (para diagramas de tempo)
+
+Instalar dependências:
+
+```bash
+pip install -r requirements.txt
 ```
-simulador-escalonamento/
-├── main       Documentos do projeto (não muda)
-├── grupo1     Entrega do grupo 1
-├── grupo2     Entrega do grupo 2
-├── ...
-└── grupo8     Entrega do grupo 8
-```
 
-**Como navegar entre as entregas:** clique no seletor de branches, no canto
-superior esquerdo, onde aparece `main`, e escolha a branch do grupo desejado.
+> **Atenção:** o executável `dist/SimuladorEscalonamento.exe` **não exige** nenhuma dessas instalações.
 
-## Como entregar
+---
 
-A entrega é feita por **fork + pull request**, conforme o guia de entrega
-distribuído em aula:
+## Documentação
 
-1. **Fazer o fork** deste repositório (botão `Fork`, no canto superior direito)
-2. **Clonar o fork** na máquina de um dos integrantes
-3. **Desenvolver o trabalho** no fork
-4. **Fazer commit e push** a cada avanço, ao longo de todo o desenvolvimento, e
-   não apenas no final. O commit registra a alteração no seu computador; só o
-   push a envia para o fork, que é o que o GitHub enxerga
-5. **Abrir um pull request para a branch do seu grupo**, com o título no
-   formato:
+- [Tutorial de execução](./docs/tutorial_execucao.docx) — Como abrir e confirmar que o programa funciona
+- [Tutorial de uso](./docs/tutorial_uso.docx) — Como operar todas as funcionalidades do simulador
+- [Documentação técnica](./docs/documentacao_projeto.docx) — Funcionamento interno, módulos e convenções
 
-```
-Entrega - Grupo XX - Nome dos integrantes
-```
+## Por onde começar
 
-> **O erro mais comum:** o GitHub oferece `main` como destino por padrão. A
-> `main` é protegida e não recebe entregas, então um pull request apontado para
-> ela é devolvido sem análise. Troque o campo `base` para a branch do seu grupo
-> **antes** de criar o pull request.
-
-## Estrutura esperada dentro do fork
-
-```
-simulador-escalonamento/
-├── README.md              como executar, integrantes, funcionalidades
-├── Simulador.exe          o arquivo que abre com dois cliques
-├── main.py                ponto de entrada do código-fonte
-├── simulador/             código-fonte
-├── cenarios/              conjuntos de tarefas gravados
-└── docs/                  tutoriais e documentação técnica
-```
-
-Há um modelo de README de grupo em
-[`documentos/modelo_readme_do_grupo.md`](./documentos/modelo_readme_do_grupo.md).
-Detalhes do conteúdo no
-[guia de documentação](./documentos/02_guia_documentacao.pdf).
-
-## Entregas dos grupos
-
-Entregas aprovadas e incorporadas ao repositório:
-
-<!-- Adicionar conforme os pull requests forem aceitos:
-- [Grupo 1](../../tree/grupo1) — Nomes dos integrantes
--->
-
-*Nenhuma entrega aprovada até o momento.*
-
-## Observações
-
-- O projeto precisa **abrir com dois cliques**, sem montagem de ambiente
-- Não há relatório escrito: a análise dos resultados é feita oralmente
-- Dúvidas: abrir uma **Issue** neste repositório
+1. Abra `dist/SimuladorEscalonamento.exe` com dois cliques
+2. Siga o **Tutorial de execução** para confirmar que o programa funciona
+3. Siga o **Tutorial de uso** para reproduzir um cenário conhecido
+4. Consulte a **Documentação técnica** para entender o funcionamento interno
