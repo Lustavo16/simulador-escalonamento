@@ -60,9 +60,9 @@ simulador-escalonamento/
 ├── cenarios/                        → Conjuntos de tarefas exportados (CSV)
 ├── requirements.txt                 → Dependências do código-fonte
 └── docs/
-    ├── tutorial_execucao.docx       → Tutorial de execução
-    ├── tutorial_uso.docx            → Tutorial de uso
-    └── documentacao_projeto.docx    → Documentação técnica
+    ├── tutorial_execucao.pdf       → Tutorial de execução
+    ├── tutorial_uso.pdf            → Tutorial de uso
+    └── documentacao_projeto.pdf    → Documentação técnica
 ```
 
 ---
@@ -129,9 +129,9 @@ pip install -r requirements.txt
 
 ## Documentação
 
-- [Tutorial de execução](./docs/tutorial_execucao.docx) — Como abrir e confirmar que o programa funciona
-- [Tutorial de uso](./docs/tutorial_uso.docx) — Como operar todas as funcionalidades do simulador
-- [Documentação técnica](./docs/documentacao_projeto.docx) — Funcionamento interno, módulos e convenções
+- [Tutorial de execução](./docs/tutorial_execucao.pdf) — Como abrir e confirmar que o programa funciona
+- [Tutorial de uso](./docs/tutorial_uso.pdf) — Como operar todas as funcionalidades do simulador
+- [Documentação técnica](./docs/documentacao_projeto.pdf) — Funcionamento interno, módulos e convenções
 
 ## Por onde começar
 
